@@ -1,0 +1,42 @@
+.card-component {
+    width: 400px;
+    height: 250px;
+    background: linear-gradient(135deg, #4b6cb7, #182848);
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-number {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;
+    font-family: monospace;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chip {
+    width: 50px;
+}
+
+.balance {
+    color: white;
+    width: 80px;
+}

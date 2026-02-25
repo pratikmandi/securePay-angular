@@ -1,0 +1,65 @@
+<div class="register-container">
+  <div class="form-container">
+    <img src="./assets/images/mpokket.png" class="mpokket-logo" alt="mpokket" />
+    <form
+      class="register-form"
+      [formGroup]="registerForm"
+      (ngSubmit)="onRegister()"
+    >
+      <h2>Registration</h2>
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          placeholder="Enter your name"
+          formControlName="name"
+          required
+        />
+        <small>{{ showNameValidationError() }}</small>
+      </div>
+
+      <div class="form-field">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          placeholder="Enter your username"
+          formControlName="username"
+          required
+        />
+        <small>{{ showUsernameValidationError() }}</small>
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          placeholder="Enter email"
+          formControlName="email"
+          required
+        />
+        <small>{{ showEmailValidationError() }}</small>
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          placeholder="Enter password"
+          formControlName="password"
+          required
+        />
+        <small>{{ showPasswordValidationError() }}</small>
+      </div>
+
+      <button type="submit" class="register-btn">Register</button>
+    </form>
+    <div>
+      <p>
+        Already have an account?
+        <span
+          ><strong><a routerLink="../login">Login</a></strong></span
+        >
+      </p>
+    </div>
+  </div>
+</div>

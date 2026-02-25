@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="card">
+    <app-card-detail
+      *ngFor="let card of cards"
+      [cardHolder]="card.name"
+      [cardNumber]="card.cardNumber"
+      [exipreDate]="card.expireDate"
+      [balance]="card.balance"
+      [cardType]="card.cardType"
+    ></app-card-detail>
+  </div>
+</div>

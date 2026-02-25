@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+}
+
+.header-logo{
+    width: 20%;
+    padding: 10px 50px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+}
+
+.header-links {
+  display: flex;
+  gap: 25px;
+  padding: 30px;
+}
+
+.header-links a {
+  text-decoration: none;
+  color: black;
+}
+
+.active {
+    border-bottom: 3px solid;
+}

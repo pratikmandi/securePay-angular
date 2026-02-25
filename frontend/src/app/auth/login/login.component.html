@@ -1,0 +1,48 @@
+<div class="login-container">
+  <div class="form-container">
+    <img src="./assets/images/mpokket.png" class="mpokket-logo" alt="mpokket" />
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <!-- <div class="form-field">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          placeholder="Enter username"
+          formControlName="username"
+        />
+        <div>{{ showUsernameValidationError() }}</div>
+      </div> -->
+      <h2>Login</h2>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          placeholder="Enter email"
+          formControlName="email"
+          required
+        />
+        <small>{{ showEmailValidationError() }}</small>
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          placeholder="Enter password"
+          formControlName="password"
+          required
+        />
+        <small>{{ showPasswordValidationError() }}</small>
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+    <div>
+      <p>
+        Not registered yet?
+        <span
+          ><strong><a routerLink="../register">Register</a></strong></span
+        >
+      </p>
+    </div>
+  </div>
+</div>
