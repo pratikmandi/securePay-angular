@@ -1,0 +1,54 @@
+<div id="myModal" class="overlay">
+  <div class="modal-content" id="modal-content">
+    <span class="close" (click)="hideForm()">&times;</span>
+    <div class="form-container">
+      <h2>Add New Card</h2>
+      <form
+        class="course-form"
+        [formGroup]="cardGroup"
+        (ngSubmit)="onCardAdd()"
+      >
+        <div class="form-field">
+          <label for="cardHolderName">Cardholder Name</label>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            formControlName="cardHolderName"
+          />
+          <div class="validation-error">
+            <!-- {{ showTitleValidationError() }} -->
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="cardNumber">Card Number</label>
+          <input type="number" formControlName="cardNumber" />
+          <div class="validation-error">
+            <!-- {{ showDescriptionValidationError() }} -->
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="expireDate">Expiry Date</label>
+          <input type="text" formControlName="expireDate" />
+          <div class="validation-error">
+            <!-- {{ showDescriptionValidationError() }} -->
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="balance">Balance</label>
+          <input type="number" formControlName="balance" />
+          <div class="validation-error">
+            <!-- {{ showAuthorValidationError() }} -->
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-button">Add Card</button>
+          <button type="reset" class="cancel-button">Clear Form</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

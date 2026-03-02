@@ -18,6 +18,7 @@ import { CardDetailComponent } from './dashboard/cards/card-detail/card-detail.c
 import { DashboardHomeComponent } from './dashboard/dashboard-home/dashboard-home.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AddCardComponent } from './dashboard/cards/add-card/add-card.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
     CardDetailComponent,
     DashboardHomeComponent,
     RegisterComponent,
+    AddCardComponent,
   ],
   imports: [
     BrowserModule,

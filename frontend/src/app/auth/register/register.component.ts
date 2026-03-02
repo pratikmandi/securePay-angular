@@ -95,7 +95,7 @@ export class RegisterComponent implements OnInit {
   onRegister() {
     let user = this.registerForm.getRawValue();
     this.http
-      .post('http://localhost:5000/auth/register', user, {
+      .post('http://localhost:5050/auth/register', user, {
         withCredentials: true,
       })
       .subscribe(

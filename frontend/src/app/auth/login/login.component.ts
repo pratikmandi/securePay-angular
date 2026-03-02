@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +10,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -45,6 +52,29 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
+    const userData = this.loginForm.getRawValue();
+
+    this.http
+      .post('http://localhost:5050/auth/login', userData, {
+        withCredentials: true,
+      })
+      .subscribe({
+        next: () => {
+          this.http
+            .get('http://localhost:5050/auth/user', {
+              withCredentials: true,
+            })
+            .subscribe({
+              next: (user) => {
+                console.log('Logged user:', user);
+                this.router.navigate(['/dashboard']);
+              },
+              error: (err) => {
+                console.log('Authentication failed.', err);
+              },
+            });
+        },
+      });
   }
 }
