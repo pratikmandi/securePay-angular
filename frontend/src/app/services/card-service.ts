@@ -7,7 +7,17 @@ import { Injectable } from '@angular/core';
 export class CardService {
   constructor(private http: HttpClient) {}
 
-  getCard() {
-    return this.http.get(`mongodb://127.0.0.1:27017/cards`);
+  addCard(data:any){
+    return this.http.post(
+      'http://localhost:5050/auth/cards',
+      data,
+      {withCredentials:true}
+    );
+  }
+
+  getCards() {
+    return this.http.get('http://localhost:5050/auth/cards', {
+      withCredentials: true
+    });
   }
 }

@@ -1,17 +1,32 @@
-const {Router} = require('express')
-const { default: mongoose } = require('mongoose')
-const { registerUser, loginUser, getUser } = require('../controllers/userControllers')
-const { validateToken } = require('../middlewares/validation')
-const { addCard } = require('../controllers/cardInfoControllers')
+const { Router } = require("express");
+const { default: mongoose } = require("mongoose");
+const {
+  registerUser,
+  loginUser,
+  getUser,
+} = require("../controllers/userControllers");
+const { validateToken } = require("../middlewares/validation");
+const {
+  addCard,
+  getCards,
+  makeTransaction,
+  getTransactions,
+} = require("../controllers/cardInfoControllers");
 
-const router = Router()
+const router = Router();
 
-router.post('/register', registerUser)
+router.post("/register", registerUser);
 
-router.post('/login', loginUser)
+router.post("/login", loginUser);
 
-router.get('/user', validateToken, getUser)
+router.get("/user", validateToken, getUser);
 
-router.post('/cards', addCard)
+router.post("/cards", validateToken, addCard);
 
-module.exports = router
+router.get("/cards", validateToken, getCards);
+
+router.get("/transactions", validateToken, getTransactions);
+
+router.post("/transaction", validateToken, makeTransaction);
+
+module.exports = router;

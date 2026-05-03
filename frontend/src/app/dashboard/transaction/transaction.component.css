@@ -1,0 +1,61 @@
+.transaction-container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+.transaction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.transaction-form input,
+.transaction-form select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.transaction-form button {
+  padding: 12px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.transaction-form button:hover {
+  background: #43a047;
+}
+
+.transaction-history {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.desc {
+  font-weight: 500;
+}
+
+.date {
+  font-size: 12px;
+  color: #777;
+}
+
+.amount {
+  color: #e53935;
+  font-weight: 600;
+}

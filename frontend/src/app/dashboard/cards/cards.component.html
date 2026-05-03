@@ -2,12 +2,17 @@
   <div class="card">
     <app-card-detail
       *ngFor="let card of cards"
-      [cardHolder]="card.name"
+      [cardHolder]="card.cardHolderName"
       [cardNumber]="card.cardNumber"
       [exipreDate]="card.expireDate"
       [balance]="card.balance"
-      [cardType]="card.cardType"
-    ></app-card-detail>
-    <div class="add-card">+</div>
+    >
+    </app-card-detail>
   </div>
 </div>
+<div class="add-card" (click)="showForm = true">+</div>
+
+<app-add-card
+  *ngIf="showForm"
+  (cardAdded)="loadCards(); showForm = false"
+></app-add-card>

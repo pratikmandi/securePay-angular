@@ -9,7 +9,7 @@ import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserDetailsComponent } from './dashboard/user-details/user-details.component';
 import { TransactionComponent } from './dashboard/transaction/transaction.component';
@@ -43,6 +43,7 @@ import { AddCardComponent } from './dashboard/cards/add-card/add-card.component'
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

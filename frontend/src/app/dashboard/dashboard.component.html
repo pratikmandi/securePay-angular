@@ -1,18 +1,22 @@
 <div class="header">
-  <!-- <div class="header-logo">
-    <h1>Secure Pay</h1>
-  </div> -->
-
   <div class="header-links">
-    <a
-      routerLink="./"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >Dashboard</a
-    >
-    <a routerLink="./cards" routerLinkActive="active">Cards</a>
-    <a routerLink="./transactions" routerLinkActive="active">Transactions</a>
-    <a routerLink="./user" routerLinkActive="active">User</a>
+
+    <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Dashboard
+    </a>
+
+    <a routerLink="/dashboard/cards" routerLinkActive="active">
+      Cards
+    </a>
+
+    <a routerLink="/dashboard/transactions" routerLinkActive="active">
+      Transactions
+    </a>
+
+    <a routerLink="/dashboard/user" routerLinkActive="active">
+      User
+    </a>
+
   </div>
 </div>
 

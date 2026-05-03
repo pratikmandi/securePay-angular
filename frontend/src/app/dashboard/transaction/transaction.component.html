@@ -1,1 +1,43 @@
-<p>transaction works!</p>
+<div class="transaction-container">
+  <h2>Make Transaction</h2>
+
+  <form class="transaction-form">
+    <label>Select Card</label>
+    <select [(ngModel)]="selectedCard" name="card">
+      <option *ngFor="let card of cards" [value]="card.cardNumber">
+        **** **** **** {{ card.cardNumber.toString().slice(-4) }}
+      </option>
+    </select>
+
+    <input
+      type="number"
+      name="amount"
+      [(ngModel)]="amount"
+      placeholder="Enter amount"
+    />
+
+    <input
+      type="text"
+      name="description"
+      [(ngModel)]="description"
+      placeholder="Description"
+    />
+
+    <button (click)="makeTransaction()">Send Money</button>
+  </form>
+
+  <div class="transaction-history">
+    <h3>Recent Transactions</h3>
+
+    <div class="transaction-item" *ngFor="let t of transactions">
+      <div class="left">
+        <p class="desc">{{ t.description }}</p>
+        <span class="date">{{ t.date }}</span>
+      </div>
+
+      <div class="right">
+        <p class="amount">₹ {{ t.amount }}</p>
+      </div>
+    </div>
+  </div>
+</div>

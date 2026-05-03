@@ -18,11 +18,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      username: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(10),
-      ]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required]),
     });
@@ -52,29 +47,39 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    // console.log(this.loginForm.value);
-    const userData = this.loginForm.getRawValue();
 
-    this.http
-      .post('http://localhost:5050/auth/login', userData, {
-        withCredentials: true,
-      })
-      .subscribe({
-        next: () => {
-          this.http
-            .get('http://localhost:5050/auth/user', {
-              withCredentials: true,
-            })
-            .subscribe({
-              next: (user) => {
-                console.log('Logged user:', user);
-                this.router.navigate(['/dashboard']);
-              },
-              error: (err) => {
-                console.log('Authentication failed.', err);
-              },
-            });
-        },
-      });
+    const userData = this.loginForm.value;
+
+    this.http.post('http://localhost:5050/auth/login', userData, {
+      withCredentials: true
+    }).subscribe({
+
+      next: () => {
+
+        this.http.get('http://localhost:5050/auth/user', {
+          withCredentials: true
+        }).subscribe({
+
+          next: (user) => {
+            console.log("Logged in user:", user);
+            console.log("Navigating to dashboard...");
+            this.router.navigate(['/dashboard']);
+          },
+
+          error: (err) => {
+            alert("Authentication failed");
+            console.log("Login failed", err);
+          }
+
+        });
+
+      },
+
+      error: () => {
+        alert("Login failed");
+      }
+
+    });
+
   }
 }
