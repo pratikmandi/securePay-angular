@@ -1,18 +1,20 @@
 <div class="register-container">
   <div class="form-container">
-    <img src="./assets/images/mpokket.png" class="mpokket-logo" alt="mpokket" />
+    <img src="./assets/images/mpokket.png" class="mpokket-logo" alt="" />
     <form
       class="register-form"
       [formGroup]="registerForm"
       (ngSubmit)="onRegister()"
     >
-      <h2>Registration</h2>
+      <h2>Create account</h2>
       <div class="form-field">
-        <label for="name">Name</label>
+        <label for="name">Full name</label>
         <input
+          id="name"
           type="text"
-          placeholder="Enter your name"
+          placeholder="Full name"
           formControlName="name"
+          autocomplete="name"
           required
         />
         <small>{{ showNameValidationError() }}</small>
@@ -21,20 +23,24 @@
       <div class="form-field">
         <label for="username">Username</label>
         <input
+          id="username"
           type="text"
-          placeholder="Enter your username"
+          placeholder="Username"
           formControlName="username"
+          autocomplete="username"
           required
         />
         <small>{{ showUsernameValidationError() }}</small>
       </div>
 
       <div class="form-field">
-        <label for="email">Email</label>
+        <label for="email">Email address</label>
         <input
-          type="text"
-          placeholder="Enter email"
+          id="email"
+          type="email"
+          placeholder="name@company.com"
           formControlName="email"
+          autocomplete="email"
           required
         />
         <small>{{ showEmailValidationError() }}</small>
@@ -43,9 +49,11 @@
       <div class="form-field">
         <label for="password">Password</label>
         <input
+          id="password"
           type="password"
-          placeholder="Enter password"
+          placeholder="Password"
           formControlName="password"
+          autocomplete="new-password"
           required
         />
         <small>{{ showPasswordValidationError() }}</small>
@@ -55,10 +63,8 @@
     </form>
     <div>
       <p>
-        Already have an account?
-        <span
-          ><strong><a routerLink="../login">Login</a></strong></span
-        >
+        Already registered?
+        <strong><a routerLink="/login">Sign in</a></strong>
       </p>
     </div>
   </div>

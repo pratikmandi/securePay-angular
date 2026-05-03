@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, catchError, of } from 'rxjs';
+import { API_URL } from '../config/api-url';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
 
-    return this.http.get('http://localhost:5050/auth/user', {
+    return this.http.get(`${API_URL}/user`, {
       withCredentials: true
     }).pipe(
 

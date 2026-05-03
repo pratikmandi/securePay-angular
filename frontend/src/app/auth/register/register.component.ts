@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { API_URL } from '../../config/api-url';
+import { CardService } from '../../services/card-service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +17,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private cardService: CardService,
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
@@ -37,15 +42,15 @@ export class RegisterComponent implements OnInit {
     const nameControl = this.registerForm.get('name');
     if (nameControl.touched && !nameControl.valid) {
       if (nameControl.errors['required']) {
-        return 'Name is required!';
+        return 'Full name is required.';
       }
 
       if (nameControl.errors['minlength']) {
-        return 'Name must be atleast 2 characters.';
+        return 'Use at least 2 characters.';
       }
 
       if (nameControl.errors['maxlength']) {
-        return 'Maximum 20 characters allowed.';
+        return 'Maximum length is 20 characters.';
       }
     }
     return '';
@@ -55,15 +60,15 @@ export class RegisterComponent implements OnInit {
     const usernameControl = this.registerForm.get('username');
     if (usernameControl.touched && !usernameControl.valid) {
       if (usernameControl.errors['required']) {
-        return 'Username is required!';
+        return 'Username is required.';
       }
 
       if (usernameControl.errors['minlength']) {
-        return 'Username must be atleast 3 characters.';
+        return 'Use at least 3 characters.';
       }
 
       if (usernameControl.errors['maxlength']) {
-        return 'Maximum 15 characters allowed.';
+        return 'Maximum length is 15 characters.';
       }
     }
     return '';
@@ -73,10 +78,10 @@ export class RegisterComponent implements OnInit {
     const emailControl = this.registerForm.get('email');
     if (emailControl.touched && !emailControl.valid) {
       if (emailControl.errors['required']) {
-        return 'Email is required.';
+        return 'Email address is required.';
       }
       if (emailControl.errors['email']) {
-        return 'Invalid email.';
+        return 'Enter a valid email address.';
       }
     }
     return '';
@@ -86,7 +91,7 @@ export class RegisterComponent implements OnInit {
     const passwordControl = this.registerForm.get('password');
     if (passwordControl.touched && !passwordControl.valid) {
       if (passwordControl.errors['required']) {
-        return 'Enter valid password';
+        return 'Password is required.';
       }
     }
     return '';
@@ -95,14 +100,21 @@ export class RegisterComponent implements OnInit {
   onRegister() {
     let user = this.registerForm.getRawValue();
     this.http
-      .post('http://localhost:5050/auth/register', user, {
+      .post(`${API_URL}/register`, user, {
         withCredentials: true,
       })
-      .subscribe(
-        () => this.router.navigate(['/dashboard']),
-        (err) => {
-          return 'Failed';
+      .subscribe({
+        next: () => {
+          this.cardService.clearAllCaches();
+          this.userService.clearProfileCache();
+          this.userService.getProfile(true).subscribe({
+            next: () => this.router.navigate(['/dashboard']),
+            error: () => this.router.navigate(['/dashboard']),
+          });
         },
-      );
+        error: () => {
+          alert('Registration failed. This email may already be in use.');
+        },
+      });
   }
 }

@@ -1,1 +1,71 @@
-<p>user-details works!</p>
+<div class="profile-page">
+  <h1>Profile</h1>
+  <p class="lead">
+    Email and username are set at registration and cannot be changed here. Update your name and
+    contact details below.
+  </p>
+
+  <p class="banner error" *ngIf="errorMsg">{{ errorMsg }}</p>
+  <p class="banner ok" *ngIf="successMsg">{{ successMsg }}</p>
+
+  <div class="loading" *ngIf="loading">Loading…</div>
+
+  <form
+    *ngIf="!loading"
+    class="profile-form"
+    [formGroup]="profileForm"
+    (ngSubmit)="save()"
+  >
+    <div class="field readonly">
+      <label>Email</label>
+      <input type="email" [value]="emailDisplay" readonly tabindex="-1" />
+    </div>
+
+    <div class="field readonly">
+      <label>Username</label>
+      <input type="text" [value]="usernameDisplay" readonly tabindex="-1" />
+    </div>
+
+    <div class="field">
+      <label for="name">Full name</label>
+      <input id="name" type="text" formControlName="name" autocomplete="name" />
+      <span class="err" *ngIf="profileForm.get('name')?.touched && profileForm.get('name')?.errors?.['required']">
+        Full name is required.
+      </span>
+    </div>
+
+    <div class="field">
+      <label for="address">Address</label>
+      <textarea
+        id="address"
+        rows="3"
+        formControlName="address"
+        placeholder="Street, city, postcode"
+      ></textarea>
+    </div>
+
+    <div class="field">
+      <label for="profession">Profession</label>
+      <input
+        id="profession"
+        type="text"
+        formControlName="profession"
+        placeholder="Job title or occupation"
+      />
+    </div>
+
+    <div class="field">
+      <label for="organization">Employer or institution</label>
+      <input
+        id="organization"
+        type="text"
+        formControlName="organization"
+        placeholder="Company or school name"
+      />
+    </div>
+
+    <button type="submit" class="save-btn" [disabled]="saving">
+      {{ saving ? 'Saving…' : 'Save' }}
+    </button>
+  </form>
+</div>

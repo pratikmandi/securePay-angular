@@ -1,19 +1,41 @@
 <div class="card-component">
   <div class="card-front">
     <header>
-      <p class="cardType">{{ cardType }}</p>
-      <p class="balance">$ {{ balance }}</p>
+      <p class="cardType">{{ cardBrand(card.cardNumber) }}</p>
+      <p class="balance">₹ {{ card.balance | number : '1.2-2' }}</p>
     </header>
-    <div class="card-number">{{ cardNumber }}</div>
+    <div class="card-number">{{ maskPan(card.cardNumber) }}</div>
     <div class="card-details">
       <div class="card-holder">
-        <h6>Card Holder</h6>
-        <h5>{{ cardHolder }}</h5>
+        <h6>Card holder</h6>
+        <h5>{{ card.cardHolderName }}</h5>
       </div>
       <div class="card-expiry">
         <h6>Expires</h6>
-        <h5>{{ exipreDate }}</h5>
+        <h5>{{ card.expireDate }}</h5>
       </div>
     </div>
+  </div>
+
+  <div class="balance-panel">
+    <label class="panel-label" [attr.for]="'bal-' + card._id">Credit balance</label>
+    <p class="panel-help">
+      Current balance: ₹ {{ card.balance | number : '1.2-2' }}. The amount below is credited to
+      this balance.
+    </p>
+    <div class="balance-row">
+      <input
+        type="number"
+        min="0"
+        step="0.01"
+        [id]="'bal-' + card._id"
+        [(ngModel)]="addAmount"
+        placeholder="Amount (₹)"
+      />
+      <button type="button" (click)="applyAddFunds()" [disabled]="saving">
+        {{ saving ? 'Processing…' : 'Apply' }}
+      </button>
+    </div>
+    <p class="feedback" *ngIf="feedback">{{ feedback }}</p>
   </div>
 </div>

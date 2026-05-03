@@ -1,21 +1,78 @@
-<div class="add-card-form">
-  <form [formGroup]="cardGroup" (ngSubmit)="onCardAdd()">
-    <input
-      type="text"
-      placeholder="Card Holder Name"
-      formControlName="cardHolderName"
-    />
+<div class="overlay" role="dialog" aria-modal="true" (click)="onOverlayClick()">
+  <div class="modal-content form-container" (click)="$event.stopPropagation()">
+    <h2>Add card</h2>
+    <p class="hint">
+      Enter card details as they appear on the card. The number must pass standard length and
+      checksum validation; expiry must be a future date (MM/YY).
+    </p>
 
-    <input type="text" placeholder="Card Number" formControlName="cardNumber" />
+    <form class="card-form" [formGroup]="cardGroup" (ngSubmit)="onCardAdd()">
+      <div class="form-field">
+        <label for="cardHolderName">Cardholder name</label>
+        <input
+          id="cardHolderName"
+          type="text"
+          placeholder="As shown on card"
+          formControlName="cardHolderName"
+          autocomplete="cc-name"
+        />
+        <div class="validation-error" *ngIf="fieldError('cardHolderName')">
+          {{ fieldError('cardHolderName') }}
+        </div>
+      </div>
 
-    <input
-      type="text"
-      placeholder="Expiry Date (MM/YY)"
-      formControlName="expireDate"
-    />
+      <div class="form-field">
+        <label for="cardNumber">Card number</label>
+        <input
+          id="cardNumber"
+          type="text"
+          inputmode="numeric"
+          placeholder="Card number"
+          formControlName="cardNumber"
+          autocomplete="cc-number"
+        />
+        <div class="field-hint">{{ cardNumberHint() }}</div>
+        <div class="validation-error" *ngIf="fieldError('cardNumber')">
+          {{ fieldError('cardNumber') }}
+        </div>
+      </div>
 
-    <input type="number" placeholder="Balance" formControlName="balance" />
+      <div class="form-field">
+        <label for="expireDate">Expiry date</label>
+        <input
+          id="expireDate"
+          type="text"
+          placeholder="MM/YY"
+          formControlName="expireDate"
+          autocomplete="cc-exp"
+        />
+        <div class="validation-error" *ngIf="fieldError('expireDate')">
+          {{ fieldError('expireDate') }}
+        </div>
+      </div>
 
-    <button type="submit">Add Card</button>
-  </form>
+      <div class="form-field">
+        <label for="balance">Opening balance</label>
+        <input
+          id="balance"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="0.00"
+          formControlName="balance"
+        />
+        <div class="validation-error" *ngIf="fieldError('balance')">
+          {{ fieldError('balance') }}
+        </div>
+      </div>
+
+      <div class="validation-error" *ngIf="serverError">{{ serverError }}</div>
+
+      <div class="form-actions">
+        <button class="submit-button" type="submit" [disabled]="submitting">
+          {{ submitting ? 'Saving…' : 'Save card' }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

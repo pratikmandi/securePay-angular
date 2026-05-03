@@ -1,16 +1,54 @@
 const mongoose = require("mongoose");
 
+const TRANSACTION_TYPES = ["transfer", "bill", "card_transfer", "balance_credit"];
+
 const transactionSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
 
-  cardNumber: String,
+  /** Primary card for this ledger line (debited or credited). */
+  cardNumber: {
+    type: String,
+    required: true,
+  },
 
-  amount: Number,
+  /** Counterparty card for internal transfers (optional otherwise). */
+  toCardNumber: {
+    type: String,
+    default: "",
+  },
 
-  description: String,
+  amount: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+
+  description: {
+    type: String,
+    default: "",
+  },
+
+  type: {
+    type: String,
+    enum: TRANSACTION_TYPES,
+    default: "transfer",
+  },
+
+  /** debit = funds out of primary card; credit = funds into primary card */
+  direction: {
+    type: String,
+    enum: ["debit", "credit"],
+    default: "debit",
+  },
+
+  payee: {
+    type: String,
+    default: "",
+  },
 
   date: {
     type: Date,

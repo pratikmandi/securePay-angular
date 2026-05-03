@@ -9,10 +9,11 @@ import { TransactionComponent } from './dashboard/transaction/transaction.compon
 import { UserDetailsComponent } from './dashboard/user-details/user-details.component';
 import { DashboardHomeComponent } from './dashboard/dashboard-home/dashboard-home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
 
-  { path: '', component: LoginComponent },   // 👈 default page
+  { path: '', component: LoginComponent },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', component: DashboardHomeComponent },
       { path: 'cards', component: CardsComponent },

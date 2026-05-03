@@ -1,23 +1,16 @@
 <div class="login-container">
   <div class="form-container">
-    <img src="./assets/images/mpokket.png" class="mpokket-logo" alt="mpokket" />
+    <img src="./assets/images/mpokket.png" class="mpokket-logo" alt="" />
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <!-- <div class="form-field">
-        <label for="username">Username</label>
-        <input
-          type="text"
-          placeholder="Enter username"
-          formControlName="username"
-        />
-        <div>{{ showUsernameValidationError() }}</div>
-      </div> -->
-      <h2>Login</h2>
+      <h2>Sign in</h2>
       <div class="form-field">
-        <label for="email">Email</label>
+        <label for="email">Email address</label>
         <input
-          type="text"
-          placeholder="Enter email"
+          id="email"
+          type="email"
+          placeholder="name@company.com"
           formControlName="email"
+          autocomplete="email"
           required
         />
         <small>{{ showEmailValidationError() }}</small>
@@ -26,22 +19,22 @@
       <div class="form-field">
         <label for="password">Password</label>
         <input
+          id="password"
           type="password"
-          placeholder="Enter password"
+          placeholder="Password"
           formControlName="password"
+          autocomplete="current-password"
           required
         />
         <small>{{ showPasswordValidationError() }}</small>
       </div>
 
-      <button type="submit" class="login-btn">Login</button>
+      <button type="submit" class="login-btn">Sign in</button>
     </form>
     <div>
       <p>
-        Not registered yet?
-        <span
-          ><strong><a routerLink="../register">Register</a></strong></span
-        >
+        New user?
+        <strong><a routerLink="/register">Create an account</a></strong>
       </p>
     </div>
   </div>

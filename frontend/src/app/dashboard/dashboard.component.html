@@ -1,23 +1,15 @@
-<div class="header">
-  <div class="header-links">
-
+<nav class="dashboard-nav" aria-label="Main navigation">
+  <div class="nav-links">
     <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      Dashboard
+      Overview
     </a>
-
-    <a routerLink="/dashboard/cards" routerLinkActive="active">
-      Cards
-    </a>
-
-    <a routerLink="/dashboard/transactions" routerLinkActive="active">
-      Transactions
-    </a>
-
-    <a routerLink="/dashboard/user" routerLinkActive="active">
-      User
-    </a>
-
+    <a routerLink="/dashboard/cards" routerLinkActive="active">Cards</a>
+    <a routerLink="/dashboard/transactions" routerLinkActive="active">Payments</a>
+    <a routerLink="/dashboard/user" routerLinkActive="active">Profile</a>
   </div>
-</div>
+  <button type="button" class="logout-btn" (click)="logout()">Sign out</button>
+</nav>
 
-<router-outlet></router-outlet>
+<div class="dashboard-body">
+  <router-outlet></router-outlet>
+</div>

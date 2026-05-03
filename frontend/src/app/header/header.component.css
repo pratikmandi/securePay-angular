@@ -1,30 +1,19 @@
-.header {
-    display: flex;
-}
-
-.header-logo{
-    width: 20%;
-    padding: 10px 50px;
-}
-
-.header {
+.app-header {
   display: flex;
-  justify-content: space-between; 
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.header-links {
+.brand {
   display: flex;
-  gap: 20px;
-  padding: 0px 20px;
+  align-items: center;
 }
 
-.header-links a {
-  text-decoration: none;
-  color: black;
-}
-
-.active {
-    border-bottom: 3px solid;
+.brand-mark {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e40af;
+  letter-spacing: -0.02em;
 }

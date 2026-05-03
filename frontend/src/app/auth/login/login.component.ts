@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { API_URL } from '../../config/api-url';
+import { CardService } from '../../services/card-service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private cardService: CardService,
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
@@ -27,10 +32,10 @@ export class LoginComponent implements OnInit {
     const emailControl = this.loginForm.get('email');
     if (emailControl.touched && !emailControl.valid) {
       if (emailControl.errors['required']) {
-        return 'Email is required.';
+        return 'Email address is required.';
       }
       if (emailControl.errors['email']) {
-        return 'Invalid email.';
+        return 'Enter a valid email address.';
       }
     }
     return '';
@@ -40,7 +45,7 @@ export class LoginComponent implements OnInit {
     const passwordControl = this.loginForm.get('password');
     if (passwordControl.touched && !passwordControl.valid) {
       if (passwordControl.errors['required']) {
-        return 'Enter valid password';
+        return 'Password is required.';
       }
     }
     return '';
@@ -50,34 +55,24 @@ export class LoginComponent implements OnInit {
 
     const userData = this.loginForm.value;
 
-    this.http.post('http://localhost:5050/auth/login', userData, {
+    this.http.post(`${API_URL}/login`, userData, {
       withCredentials: true
     }).subscribe({
 
       next: () => {
-
-        this.http.get('http://localhost:5050/auth/user', {
-          withCredentials: true
-        }).subscribe({
-
-          next: (user) => {
-            console.log("Logged in user:", user);
-            console.log("Navigating to dashboard...");
-            this.router.navigate(['/dashboard']);
+        this.cardService.clearAllCaches();
+        this.userService.clearProfileCache();
+        this.userService.getProfile(true).subscribe({
+          next: () => this.router.navigate(['/dashboard']),
+          error: () => {
+            alert('Session could not be established. Sign in again.');
           },
-
-          error: (err) => {
-            alert("Authentication failed");
-            console.log("Login failed", err);
-          }
-
         });
-
       },
 
       error: () => {
-        alert("Login failed");
-      }
+        alert('Sign-in failed. Check your email and password.');
+      },
 
     });
 

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CardService } from '../../services/card-service';
+import { CardService, PaymentCard } from '../../services/card-service';
 
 @Component({
   selector: 'app-cards',
   templateUrl: './cards.component.html',
+  styleUrls: ['./cards.component.css'],
 })
 export class CardsComponent implements OnInit {
 
-  cards: any[] = [];
+  cards: PaymentCard[] = [];
 
   showForm: boolean = false
 

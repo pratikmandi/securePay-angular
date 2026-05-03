@@ -1,43 +1,167 @@
 <div class="transaction-container">
-  <h2>Make Transaction</h2>
+  <h2>Payments</h2>
+  <p class="lead">
+    Send transfers, pay bills, or move funds between cards linked to this account.
+  </p>
 
-  <form class="transaction-form">
-    <label>Select Card</label>
-    <select [(ngModel)]="selectedCard" name="card">
-      <option *ngFor="let card of cards" [value]="card.cardNumber">
-        **** **** **** {{ card.cardNumber.toString().slice(-4) }}
+  <p class="error-banner" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+  <div class="toolbar" *ngIf="cards.length">
+    <label for="pay-card">Debit card</label>
+    <select id="pay-card" [(ngModel)]="selectedCard" name="card">
+      <option *ngFor="let card of cards" [ngValue]="card.cardNumber">
+        {{ cardBrand(card.cardNumber) }} ···· {{ lastFour(card.cardNumber) }} — ₹
+        {{ card.balance | number : '1.2-2' }}
       </option>
     </select>
+  </div>
 
-    <input
-      type="number"
-      name="amount"
-      [(ngModel)]="amount"
-      placeholder="Enter amount"
-    />
+  <p class="empty-hint" *ngIf="!loading && !cards.length">
+    Register a card before making payments.
+  </p>
 
-    <input
-      type="text"
-      name="description"
-      [(ngModel)]="description"
-      placeholder="Description"
-    />
+  <div class="panels" *ngIf="cards.length >= 2">
+    <section class="panel internal-panel">
+      <h3>Transfer between cards</h3>
+      <p class="panel-hint">
+        Move funds from one card to another on this account.
+      </p>
+      <div class="transfer-inline">
+        <div class="field-block">
+          <label for="from-card">From</label>
+          <select id="from-card" [(ngModel)]="fromCard" name="fromCard">
+            <option *ngFor="let card of cards" [ngValue]="card.cardNumber">
+              {{ cardBrand(card.cardNumber) }} ···· {{ lastFour(card.cardNumber) }} — ₹
+              {{ card.balance | number : '1.2-2' }}
+            </option>
+          </select>
+        </div>
+        <div class="field-block">
+          <label for="to-card">To</label>
+          <select id="to-card" [(ngModel)]="toCard" name="toCard">
+            <option *ngFor="let card of cards" [ngValue]="card.cardNumber">
+              {{ cardBrand(card.cardNumber) }} ···· {{ lastFour(card.cardNumber) }} — ₹
+              {{ card.balance | number : '1.2-2' }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="transaction-form compact">
+        <input
+          type="number"
+          min="0"
+          step="0.01"
+          name="internalAmount"
+          [(ngModel)]="internalAmount"
+          placeholder="Amount (₹)"
+        />
+        <input
+          type="text"
+          name="internalNote"
+          [(ngModel)]="internalNote"
+          placeholder="Description (optional)"
+        />
+        <button type="button" class="internal-btn" (click)="transferBetweenCards()">
+          Submit transfer
+        </button>
+      </div>
+    </section>
+  </div>
 
-    <button (click)="makeTransaction()">Send Money</button>
-  </form>
+  <div class="panels" *ngIf="cards.length">
+    <section class="panel">
+      <h3>Outbound transfer</h3>
+      <div class="transaction-form">
+        <input
+          type="number"
+          min="0"
+          step="0.01"
+          name="amount"
+          [(ngModel)]="amount"
+          placeholder="Amount (₹)"
+        />
+        <input
+          type="text"
+          name="description"
+          [(ngModel)]="description"
+          placeholder="Description"
+        />
+        <button type="button" (click)="makeTransfer()">Submit payment</button>
+      </div>
+    </section>
+
+    <section class="panel bill">
+      <h3>Bill payment</h3>
+      <div class="transaction-form">
+        <input
+          type="text"
+          name="payee"
+          [(ngModel)]="billPayee"
+          placeholder="Payee name"
+        />
+        <input
+          type="number"
+          min="0"
+          step="0.01"
+          name="billAmount"
+          [(ngModel)]="billAmount"
+          placeholder="Amount (₹)"
+        />
+        <input
+          type="text"
+          name="billNote"
+          [(ngModel)]="billNote"
+          placeholder="Reference (optional)"
+        />
+        <button type="button" class="secondary" (click)="payBill()">
+          Submit bill payment
+        </button>
+      </div>
+    </section>
+  </div>
 
   <div class="transaction-history">
-    <h3>Recent Transactions</h3>
+    <h3>Transaction history</h3>
+
+    <div class="tx-summary" *ngIf="transactions.length">
+      <span>{{ transactions.length }} items</span>
+      <span>Outgoing: ₹ {{ totalDebited() | number : '1.2-2' }}</span>
+      <span>Incoming: ₹ {{ totalCredited() | number : '1.2-2' }}</span>
+    </div>
 
     <div class="transaction-item" *ngFor="let t of transactions">
       <div class="left">
-        <p class="desc">{{ t.description }}</p>
-        <span class="date">{{ t.date }}</span>
+        <span
+          class="type-pill"
+          [class.bill]="t.type === 'bill'"
+          [class.internal]="t.type === 'card_transfer'"
+          [class.credit]="isCreditEntry(t)"
+        >
+          {{ txTypeLabel(t) }}
+        </span>
+        <p class="desc">
+          {{ t.type === 'bill' && t.payee ? t.payee + ' — ' : ''
+          }}{{ t.description }}
+        </p>
+        <span class="date">{{ t.date | date : 'medium' }}</span>
       </div>
-
       <div class="right">
-        <p class="amount">₹ {{ t.amount }}</p>
+        <p
+          class="amount"
+          [class.negative]="!isCreditEntry(t)"
+          [class.positive]="isCreditEntry(t)"
+        >
+          {{ isCreditEntry(t) ? '+' : '−' }} ₹ {{ t.amount | number : '1.2-2' }}
+        </p>
+        <span class="pan-hint" *ngIf="t.type === 'card_transfer' && t.toCardNumber">
+          ····{{ lastFour(transferFromPan(t)) }} → ····{{ lastFour(transferToPan(t)) }}
+        </span>
+        <span class="pan-hint" *ngIf="t.type !== 'card_transfer'">
+          ···· {{ lastFour(t.cardNumber) }}
+        </span>
       </div>
     </div>
+
+    <p class="empty-hint" *ngIf="!transactions.length">No transactions to display.</p>
   </div>
 </div>
