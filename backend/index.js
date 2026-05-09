@@ -21,6 +21,6 @@ app.use("/auth", routes)
 mongoose.connect(process.env.MONGODB_URL).then(()=> {
     console.log('Connected to database.')
     app.listen(PORT, ()=> {
-        console.log('App running on PORT 5052')
+        console.log('App running on PORT ${PORT}')
     })
 })
