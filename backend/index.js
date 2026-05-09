@@ -8,6 +8,7 @@ env.config()
 
 
 const app = express()
+const PORT = process.env.PORT || 5000;
 
 app.use(cors({
     credentials: true,
@@ -19,7 +20,7 @@ app.use("/auth", routes)
 
 mongoose.connect(process.env.MONGODB_URL).then(()=> {
     console.log('Connected to database.')
-    app.listen(5052, ()=> {
+    app.listen(PORT, ()=> {
         console.log('App running on PORT 5052')
     })
 })
